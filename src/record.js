@@ -16,23 +16,23 @@ class Record {
 
   toSoap () {
     return {
-      '$': { ttl: this.ttl },
-      'DomainName': this.domain,
-      'Preference': this.preference,
-      'Order': this.order,
-      'Flags': this.flags,
-      'Service': this.service,
-      'Regexp': this._createRegexpField(),
-      'Replacement': this.replacement,
-      'CountryCode': false,
-      'Partner': this._createPartnerField()
+      $: { ttl: this.ttl },
+      DomainName: this.domain,
+      Preference: this.preference,
+      Order: this.order,
+      Flags: this.flags,
+      Service: this.service,
+      Regexp: this._createRegexpField(),
+      Replacement: this.replacement,
+      CountryCode: false,
+      Partner: this._createPartnerField()
     }
   }
 
   _createPartnerField () {
-    let partner = { '$': { id: this.partnerId } }
+    const partner = { $: { id: this.partnerId } }
     if (this.partnerId === -1) {
-      partner['_'] = 'ALL'
+      partner._ = 'ALL'
     }
     return partner
   }
@@ -42,7 +42,7 @@ class Record {
     if (pattern instanceof RegExp) {
       pattern = pattern.toString().replace(/^\/|\/$/g, '')
     }
-    return { '$': { pattern }, '_': this.regexp.replace }
+    return { $: { pattern }, _: this.regexp.replace }
   }
 }
 

@@ -35,9 +35,9 @@ Test('Client', clientTest => {
 
   clientTest.test('constructor should', createClientTest => {
     createClientTest.test('create client using provided options', test => {
-      let opts = { address: 'test.com', operation: 'op', namespace: 'ns' }
+      const opts = { address: 'test.com', operation: 'op', namespace: 'ns' }
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       test.equal(client._address, opts.address)
       test.equal(client._operation, opts.operation)
@@ -47,9 +47,9 @@ Test('Client', clientTest => {
     })
 
     createClientTest.test('create client using default options', test => {
-      let opts = { address: 'test.com' }
+      const opts = { address: 'test.com' }
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       test.equal(client._address, opts.address)
       test.equal(client._operation, 'Request')
@@ -63,20 +63,20 @@ Test('Client', clientTest => {
 
   clientTest.test('findProfile should', findProfileTest => {
     findProfileTest.test('send QueryDNSProfile messsage and return response', test => {
-      let opts = { address: 'test.com' }
-      let profileId = 'MyProfile'
+      const opts = { address: 'test.com' }
+      const profileId = 'MyProfile'
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let queryProfileResult = { code: 200 }
+      const queryProfileResult = { code: 200 }
       Result.queryProfile.returns(queryProfileResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.findProfile(profileId)
         .then(res => {
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.QueryDNSProfile)
           test.ok(message.QueryDNSProfile.TransactionID)
           test.equal(message.QueryDNSProfile.ProfileID, profileId)
@@ -92,26 +92,26 @@ Test('Client', clientTest => {
 
   clientTest.test('createProfile should', createProfileTest => {
     createProfileTest.test('send DefineDNSProfile message and return response', test => {
-      let opts = { address: 'test.com' }
-      let profile = new Profile({ id: 'Test', records: [{}] })
+      const opts = { address: 'test.com' }
+      const profile = new Profile({ id: 'Test', records: [{}] })
 
-      let soapProfile = { 'Test': 'test' }
+      const soapProfile = { Test: 'test' }
       profile.toSoap = sandbox.stub().returns(soapProfile)
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let baseResult = { code: 201 }
+      const baseResult = { code: 201 }
       Result.base.returns(baseResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.createProfile(profile)
         .then(res => {
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.DefineDNSProfile)
 
-          let defineRecord = message.DefineDNSProfile
+          const defineRecord = message.DefineDNSProfile
           test.ok(defineRecord.TransactionID)
           test.equal(defineRecord.Test, 'test')
 
@@ -123,10 +123,10 @@ Test('Client', clientTest => {
     })
 
     createProfileTest.test('throw error if no records in profile', test => {
-      let opts = { address: 'test.com' }
-      let profile = new Profile({ id: 'test' })
+      const opts = { address: 'test.com' }
+      const profile = new Profile({ id: 'test' })
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.createProfile(profile)
         .then(res => {
@@ -144,26 +144,26 @@ Test('Client', clientTest => {
 
   clientTest.test('updateProfile should', updateProfileTest => {
     updateProfileTest.test('send UpdateDNSProfile message and return response', test => {
-      let opts = { address: 'test.com' }
-      let profile = new Profile({ id: 'Test', records: [{}] })
+      const opts = { address: 'test.com' }
+      const profile = new Profile({ id: 'Test', records: [{}] })
 
-      let soapProfile = { 'Test': 'test' }
+      const soapProfile = { Test: 'test' }
       profile.toSoap = sandbox.stub().returns(soapProfile)
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let baseResult = { code: 201 }
+      const baseResult = { code: 201 }
       Result.base.returns(baseResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.updateProfile(profile)
         .then(res => {
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.UpdateDNSProfile)
 
-          let defineRecord = message.UpdateDNSProfile
+          const defineRecord = message.UpdateDNSProfile
           test.ok(defineRecord.TransactionID)
           test.equal(defineRecord.Test, 'test')
 
@@ -175,10 +175,10 @@ Test('Client', clientTest => {
     })
 
     updateProfileTest.test('throw error if no records in profile', test => {
-      let opts = { address: 'test.com' }
-      let profile = new Profile({ id: 'test' })
+      const opts = { address: 'test.com' }
+      const profile = new Profile({ id: 'test' })
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.updateProfile(profile)
         .then(res => {
@@ -196,28 +196,28 @@ Test('Client', clientTest => {
 
   clientTest.test('changePhoneNumberStatus should', changeNumberStatusTest => {
     changeNumberStatusTest.test('send ChangeTN message and return response', test => {
-      let opts = { address: 'test.com' }
-      let status = 'inactive'
-      let profileId = 'MyProfile'
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const status = 'inactive'
+      const profileId = 'MyProfile'
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
       Phone.parse.returns({ nationalNumber, countryCode })
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let baseResult = { code: 200 }
+      const baseResult = { code: 200 }
       Result.base.returns(baseResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.changePhoneNumberStatus(phoneNumber, profileId, status)
         .then(res => {
           test.ok(Phone.parse.calledWith(phoneNumber))
 
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.ChangeTN)
           test.ok(message.ChangeTN.TransactionID)
           test.ok(message.ChangeTN.TN)
@@ -234,17 +234,17 @@ Test('Client', clientTest => {
     })
 
     changeNumberStatusTest.test('handle parse error', test => {
-      let opts = { address: 'test.com' }
-      let status = 'inactive'
-      let profileId = 'MyProfile'
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const status = 'inactive'
+      const profileId = 'MyProfile'
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parseError = new Errors.InvalidPhoneNumberError()
+      const parseError = new Errors.InvalidPhoneNumberError()
       Phone.parse.throws(parseError)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.changePhoneNumberStatus(phoneNumber, profileId, status)
         .then(res => {
@@ -262,27 +262,27 @@ Test('Client', clientTest => {
 
   clientTest.test('activatePhoneNumber should', activateNumberTest => {
     activateNumberTest.test('send Activate message and return response', test => {
-      let opts = { address: 'test.com' }
-      let profileId = 'MyProfile'
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const profileId = 'MyProfile'
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
       Phone.parse.returns({ nationalNumber, countryCode })
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let baseResult = { code: 200 }
+      const baseResult = { code: 200 }
       Result.base.returns(baseResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.activatePhoneNumber(phoneNumber, profileId)
         .then(res => {
           test.ok(Phone.parse.calledWith(phoneNumber))
 
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.Activate)
           test.ok(message.Activate.TransactionID)
           test.ok(message.Activate.TN)
@@ -299,16 +299,16 @@ Test('Client', clientTest => {
     })
 
     activateNumberTest.test('handle parse error', test => {
-      let opts = { address: 'test.com' }
-      let profileId = 'MyProfile'
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const profileId = 'MyProfile'
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parseError = new Errors.InvalidPhoneNumberError()
+      const parseError = new Errors.InvalidPhoneNumberError()
       Phone.parse.throws(parseError)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.activatePhoneNumber(phoneNumber, profileId)
         .then(res => {
@@ -326,26 +326,26 @@ Test('Client', clientTest => {
 
   clientTest.test('deactivatePhoneNumber should', deactivateNumberTest => {
     deactivateNumberTest.test('send Deactivate message and return response', test => {
-      let opts = { address: 'test.com' }
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
       Phone.parse.returns({ nationalNumber, countryCode })
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let baseResult = { code: 200 }
+      const baseResult = { code: 200 }
       Result.base.returns(baseResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.deactivatePhoneNumber(phoneNumber)
         .then(res => {
           test.ok(Phone.parse.calledWith(phoneNumber))
 
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.Deactivate)
           test.ok(message.Deactivate.TransactionID)
           test.ok(message.Deactivate.TN)
@@ -360,15 +360,15 @@ Test('Client', clientTest => {
     })
 
     deactivateNumberTest.test('handle parse error', test => {
-      let opts = { address: 'test.com' }
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parseError = new Errors.InvalidPhoneNumberError()
+      const parseError = new Errors.InvalidPhoneNumberError()
       Phone.parse.throws(parseError)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.deactivatePhoneNumber(phoneNumber)
         .then(res => {
@@ -386,27 +386,27 @@ Test('Client', clientTest => {
 
   clientTest.test('getProfileForPhoneNumber should', getProfileTest => {
     getProfileTest.test('send QueryTN message and return response with single data object', test => {
-      let opts = { address: 'test.com' }
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
       Phone.parse.returns({ nationalNumber, countryCode })
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let dataResult = {}
-      let queryNumberResult = { code: 200, data: [dataResult] }
+      const dataResult = {}
+      const queryNumberResult = { code: 200, data: [dataResult] }
       Result.queryNumber.returns(queryNumberResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.getProfileForPhoneNumber(phoneNumber)
         .then(res => {
           test.ok(Phone.parse.calledWith(phoneNumber))
 
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.QueryTN)
           test.ok(message.QueryTN.TransactionID)
           test.ok(message.QueryTN.TN)
@@ -422,26 +422,26 @@ Test('Client', clientTest => {
     })
 
     getProfileTest.test('handle result with empty array data object', test => {
-      let opts = { address: 'test.com' }
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
       Phone.parse.returns({ nationalNumber, countryCode })
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let queryNumberResult = { code: 200, data: [] }
+      const queryNumberResult = { code: 200, data: [] }
       Result.queryNumber.returns(queryNumberResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.getProfileForPhoneNumber(phoneNumber)
         .then(res => {
           test.ok(Phone.parse.calledWith(phoneNumber))
 
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.QueryTN)
           test.ok(message.QueryTN.TransactionID)
           test.ok(message.QueryTN.TN)
@@ -457,15 +457,15 @@ Test('Client', clientTest => {
     })
 
     getProfileTest.test('handle phone parse error', test => {
-      let opts = { address: 'test.com' }
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const opts = { address: 'test.com' }
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parseError = new Errors.InvalidPhoneNumberError()
+      const parseError = new Errors.InvalidPhoneNumberError()
       Phone.parse.throws(parseError)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.getProfileForPhoneNumber(phoneNumber)
         .then(res => {
@@ -483,20 +483,20 @@ Test('Client', clientTest => {
 
   clientTest.test('getActivatedPhoneNumbers should', getActivatedTest => {
     getActivatedTest.test('send QueryTN message and return response with data array object', test => {
-      let opts = { address: 'test.com' }
-      let profileId = 'TestProfile'
+      const opts = { address: 'test.com' }
+      const profileId = 'TestProfile'
 
-      let result = {}
+      const result = {}
       SoapClient.request.returns(P.resolve(result))
 
-      let queryNumberResult = { code: 200, data: [{ profileId, tn: '+15158675309' }, { profileId, tn: '+15158675308' }] }
+      const queryNumberResult = { code: 200, data: [{ profileId, tn: '+15158675309' }, { profileId, tn: '+15158675308' }] }
       Result.queryNumber.returns(queryNumberResult)
 
-      let client = createClient(opts)
+      const client = createClient(opts)
 
       client.getActivatedPhoneNumbers(profileId)
         .then(res => {
-          let message = SoapClient.request.firstCall.args[2]
+          const message = SoapClient.request.firstCall.args[2]
           test.ok(message.QueryTN)
           test.ok(message.QueryTN.TransactionID)
           test.equal(message.QueryTN.DNSProfileID, profileId)

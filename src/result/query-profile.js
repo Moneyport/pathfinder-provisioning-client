@@ -8,9 +8,9 @@ class QueryProfileResult extends BaseResult {
   parseData (soapResponse) {
     if (!soapResponse.Envelope.Body.Response.ResponseData) return {}
 
-    let profileData = soapResponse.Envelope.Body.Response.ResponseData.DNSProfileData
+    const profileData = soapResponse.Envelope.Body.Response.ResponseData.DNSProfileData
     return {
-      customerId: parseInt(profileData.Customer['$'].id),
+      customerId: parseInt(profileData.Customer.$.id),
       created: profileData.DateCreated,
       isInUse: profileData.IsInUse.toLowerCase() === 'true',
       profile: this._parseProfile(profileData)
@@ -18,7 +18,7 @@ class QueryProfileResult extends BaseResult {
   }
 
   _parseProfile (profileData) {
-    let naptrRecords = Array.isArray(profileData.NAPTR) ? profileData.NAPTR : [profileData.NAPTR]
+    const naptrRecords = Array.isArray(profileData.NAPTR) ? profileData.NAPTR : [profileData.NAPTR]
     return new Profile({ id: profileData.ProfileID, tier: parseInt(profileData.Tier), records: naptrRecords.map(this._parseNaptrRecord) })
   }
 
@@ -27,11 +27,11 @@ class QueryProfileResult extends BaseResult {
       order: parseInt(naptrData.Order),
       preference: parseInt(naptrData.Preference),
       service: naptrData.Service,
-      regexp: { pattern: naptrData.Regexp['$'].pattern, replace: naptrData.Regexp['_'] },
-      ttl: parseInt(naptrData['$'].ttl),
+      regexp: { pattern: naptrData.Regexp.$.pattern, replace: naptrData.Regexp._ },
+      ttl: parseInt(naptrData.$.ttl),
       domain: naptrData.DomainName,
       replacement: naptrData.Replacement,
-      partnerId: parseInt(naptrData.Partner['$'].id),
+      partnerId: parseInt(naptrData.Partner.$.id),
       flags: naptrData.Flags
     })
   }

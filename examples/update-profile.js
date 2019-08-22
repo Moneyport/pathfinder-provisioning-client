@@ -15,9 +15,9 @@ const address = args.length >= 2 ? (args[1] === 'local' ? Config.LOCAL_ADDRESS :
 
 const client = Provisioning.createClient({ address })
 
-let record = Provisioning.Record({ order: 10, preference: 5, service: 'E2U+mm', partnerId: 10305, regexp: { pattern: '^.*$', replace: 'mm:001.321@mojaloop.org' } })
-let record2 = Provisioning.Record({ order: 10, preference: 15, service: 'E2U+mm', partnerId: 10305, regexp: { pattern: '^.*$', replace: 'mm:001.123@mojaloop.org' } })
-let profile = Provisioning.Profile({ id: profileId, records: [record, record2] })
+const record = Provisioning.Record({ order: 10, preference: 5, service: 'E2U+mm', partnerId: 10305, regexp: { pattern: '^.*$', replace: 'mm:001.321@mojaloop.org' } })
+const record2 = Provisioning.Record({ order: 10, preference: 15, service: 'E2U+mm', partnerId: 10305, regexp: { pattern: '^.*$', replace: 'mm:001.123@mojaloop.org' } })
+const profile = Provisioning.Profile({ id: profileId, records: [record, record2] })
 
 client.updateProfile(profile)
   .then(response => {

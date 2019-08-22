@@ -20,7 +20,7 @@ Test('Phone', phoneTest => {
     phoneNumberStub = sandbox.stub()
     phoneUtilInstance = { parse: sandbox.stub(), format: sandbox.stub(), isValidNumber: sandbox.stub() }
     PhoneNumberUtil = { getInstance: sandbox.stub().returns(phoneUtilInstance) }
-    PhoneNumberFormat = { 'E164': 1 }
+    PhoneNumberFormat = { E164: 1 }
 
     Phone = Proxyquire(`${src}/phone`, { 'google-libphonenumber': { PhoneNumberFormat, PhoneNumberUtil, PhoneNumber: phoneNumberStub } })
 
@@ -34,18 +34,18 @@ Test('Phone', phoneTest => {
 
   phoneTest.test('parse should', parseTest => {
     parseTest.test('parse number to get number and country code', test => {
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parsed = sandbox.stub()
+      const parsed = sandbox.stub()
       parsed.getCountryCode = sandbox.stub().returns(countryCode)
       parsed.getNationalNumber = sandbox.stub().returns(nationalNumber)
 
       phoneUtilInstance.parse.returns(parsed)
       phoneUtilInstance.isValidNumber.returns(true)
 
-      let res = Phone.parse(phoneNumber)
+      const res = Phone.parse(phoneNumber)
       test.ok(phoneUtilInstance.parse.calledWith(phoneNumber))
       test.ok(phoneUtilInstance.isValidNumber.calledWith(parsed))
       test.equal(res.nationalNumber, nationalNumber)
@@ -54,19 +54,19 @@ Test('Phone', phoneTest => {
     })
 
     parseTest.test('handle non-E164 formatted phone numbers', test => {
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `${countryCode}-515-867-5309`
-      let e164PhoneNumber = `+${countryCode}${nationalNumber}`
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `${countryCode}-515-867-5309`
+      const e164PhoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parsed = sandbox.stub()
+      const parsed = sandbox.stub()
       parsed.getCountryCode = sandbox.stub().returns(countryCode)
       parsed.getNationalNumber = sandbox.stub().returns(nationalNumber)
 
       phoneUtilInstance.parse.returns(parsed)
       phoneUtilInstance.isValidNumber.returns(true)
 
-      let res = Phone.parse(phoneNumber)
+      const res = Phone.parse(phoneNumber)
       test.ok(phoneUtilInstance.parse.calledWith(e164PhoneNumber))
       test.ok(phoneUtilInstance.isValidNumber.calledWith(parsed))
       test.equal(res.nationalNumber, nationalNumber)
@@ -75,11 +75,11 @@ Test('Phone', phoneTest => {
     })
 
     parseTest.test('throw error if number is invalid', test => {
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let parsed = sandbox.stub()
+      const parsed = sandbox.stub()
       parsed.getCountryCode = sandbox.stub().returns(countryCode)
       parsed.getNationalNumber = sandbox.stub().returns(nationalNumber)
 
@@ -102,16 +102,16 @@ Test('Phone', phoneTest => {
 
   phoneTest.test('format should', formatTest => {
     formatTest.test('format national number and currency code into an E.164 format', test => {
-      let countryCode = 1
-      let nationalNumber = 5158675309
-      let phoneNumber = `+${countryCode}${nationalNumber}`
+      const countryCode = 1
+      const nationalNumber = 5158675309
+      const phoneNumber = `+${countryCode}${nationalNumber}`
 
-      let phoneNumberObj = { setNationalNumber: sandbox.stub(), setCountryCode: sandbox.stub() }
+      const phoneNumberObj = { setNationalNumber: sandbox.stub(), setCountryCode: sandbox.stub() }
       phoneNumberStub.returns(phoneNumberObj)
 
       phoneUtilInstance.format.returns(phoneNumber)
 
-      let formatted = Phone.format(nationalNumber, countryCode)
+      const formatted = Phone.format(nationalNumber, countryCode)
       test.ok(phoneNumberStub.calledWithNew())
       test.ok(phoneNumberObj.setCountryCode.calledWith(countryCode))
       test.ok(phoneNumberObj.setNationalNumber.calledWith(nationalNumber))

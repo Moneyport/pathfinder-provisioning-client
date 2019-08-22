@@ -20,25 +20,25 @@ Test('BaseResult', baseResultTest => {
 
   baseResultTest.test('constructor should', constructorTest => {
     constructorTest.test('parse and set fields from SOAP response', test => {
-      let returnCode = 201
-      let message1 = 'test'
-      let message2 = 'test more'
+      const returnCode = 201
+      const message1 = 'test'
+      const message2 = 'test more'
 
-      let soapResponse = {
+      const soapResponse = {
         Envelope: {
           Body: {
             Response: {
-              ReturnCode: { '_': returnCode.toString() },
+              ReturnCode: { _: returnCode.toString() },
               TextMessage: [
-                { '_': message1 },
-                { '_': message2 }
+                { _: message1 },
+                { _: message2 }
               ]
             }
           }
         }
       }
 
-      let baseResult = new BaseResult(soapResponse)
+      const baseResult = new BaseResult(soapResponse)
       test.equal(baseResult.code, returnCode)
       test.equal(baseResult.messages.length, 2)
       test.equal(baseResult.messages[0], message1)

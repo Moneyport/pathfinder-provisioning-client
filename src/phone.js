@@ -19,7 +19,7 @@ exports.parse = (phone) => {
 }
 
 exports.format = (nationalNumber, countryCode) => {
-  let phoneNumber = new PhoneNumber()
+  const phoneNumber = new PhoneNumber()
   phoneNumber.setNationalNumber(nationalNumber)
   phoneNumber.setCountryCode(countryCode)
 

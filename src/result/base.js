@@ -8,11 +8,11 @@ class BaseResult {
   }
 
   parseReturnCode (soapResponse) {
-    return parseInt(soapResponse.Envelope.Body.Response.ReturnCode['_'])
+    return parseInt(soapResponse.Envelope.Body.Response.ReturnCode._)
   }
 
   parseMessages (soapResponse) {
-    return soapResponse.Envelope.Body.Response.TextMessage.map(m => m['_'])
+    return soapResponse.Envelope.Body.Response.TextMessage.map(m => m._)
   }
 
   parseData (soapResponse) {

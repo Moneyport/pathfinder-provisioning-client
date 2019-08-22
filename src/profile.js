@@ -22,7 +22,7 @@ class Profile {
   }
 
   toSoap () {
-    return { 'ProfileID': this.id, 'Tier': this.tier, 'NAPTR': this.records.map(r => r.toSoap()) }
+    return { ProfileID: this.id, Tier: this.tier, NAPTR: this.records.map(r => r.toSoap()) }
   }
 }
 

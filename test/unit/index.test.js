@@ -30,7 +30,7 @@ Test('Index', indexTest => {
 
   indexTest.test('createClient should', createClientTest => {
     createClientTest.test('create client with supplied options', test => {
-      let opts = { address: 'localhost' }
+      const opts = { address: 'localhost' }
       Index.createClient(opts)
 
       test.ok(clientSpy.calledWithNew())
@@ -51,7 +51,7 @@ Test('Index', indexTest => {
 
   indexTest.test('Profile should', profileTest => {
     profileTest.test('create Profile with supplied options', test => {
-      let opts = { id: 'test' }
+      const opts = { id: 'test' }
       Index.Profile(opts)
 
       test.ok(profileSpy.calledWithNew())
@@ -72,7 +72,7 @@ Test('Index', indexTest => {
 
   indexTest.test('Record should', recordTest => {
     recordTest.test('create Record with supplied options', test => {
-      let opts = { ttl: 100 }
+      const opts = { ttl: 100 }
       Index.Record(opts)
 
       test.ok(recordSpy.calledWithNew())

@@ -23,7 +23,7 @@ Test('SoapClient', soapClientTest => {
     toXmlStub = sandbox.stub()
     promisifyStub = sandbox.stub()
 
-    SoapClient = Proxyquire(`${src}/soap`, { 'request': { post: postStub }, './xml': { toJs: toJsStub, toXml: toXmlStub }, 'bluebird': { promisify: promisifyStub } })
+    SoapClient = Proxyquire(`${src}/soap`, { request: { post: postStub }, './xml': { toJs: toJsStub, toXml: toXmlStub }, bluebird: { promisify: promisifyStub } })
 
     t.end()
   })
@@ -35,21 +35,21 @@ Test('SoapClient', soapClientTest => {
 
   soapClientTest.test('request should', requestTest => {
     requestTest.test('convert js to xml and make soap call', test => {
-      let url = 'http://test.com'
-      let op = 'Request'
-      let ns = 'http://www.neustar.biz/sip_ix/prov'
+      const url = 'http://test.com'
+      const op = 'Request'
+      const ns = 'http://www.neustar.biz/sip_ix/prov'
 
-      let obj = { root: 'hello' }
-      let xml = '<root>hello</root>'
+      const obj = { root: 'hello' }
+      const xml = '<root>hello</root>'
 
       toXmlStub.returns(xml)
 
-      let response = { statusCode: 200 }
-      let responseXml = '<response>stuff</response>'
+      const response = { statusCode: 200 }
+      const responseXml = '<response>stuff</response>'
       postStub.returns(P.resolve([response, responseXml]))
       promisifyStub.returns(postStub)
 
-      let responseObj = {}
+      const responseObj = {}
       toJsStub.returns(P.resolve(responseObj))
 
       SoapClient.request(url, op, obj, { namespace: ns })
@@ -67,20 +67,20 @@ Test('SoapClient', soapClientTest => {
     })
 
     requestTest.test('handle no namespace for operation', test => {
-      let url = 'http://test.com'
-      let op = 'Request'
+      const url = 'http://test.com'
+      const op = 'Request'
 
-      let obj = { root: 'hello' }
-      let xml = '<root>hello</root>'
+      const obj = { root: 'hello' }
+      const xml = '<root>hello</root>'
 
       toXmlStub.returns(xml)
 
-      let response = { statusCode: 200 }
-      let responseXml = '<response>stuff</response>'
+      const response = { statusCode: 200 }
+      const responseXml = '<response>stuff</response>'
       postStub.returns(P.resolve([response, responseXml]))
       promisifyStub.returns(postStub)
 
-      let responseObj = {}
+      const responseObj = {}
       toJsStub.returns(P.resolve(responseObj))
 
       SoapClient.request(url, op, obj, {})
@@ -95,17 +95,17 @@ Test('SoapClient', soapClientTest => {
     })
 
     requestTest.test('throw error if soap call response code not 200', test => {
-      let url = 'http://test.com'
-      let op = 'Request'
-      let ns = 'http://www.neustar.biz/sip_ix/prov'
+      const url = 'http://test.com'
+      const op = 'Request'
+      const ns = 'http://www.neustar.biz/sip_ix/prov'
 
-      let obj = { root: 'hello' }
-      let xml = '<root>hello</root>'
+      const obj = { root: 'hello' }
+      const xml = '<root>hello</root>'
 
       toXmlStub.returns(xml)
 
-      let response = { statusCode: 500 }
-      let responseXml = '<response>stuff</response>'
+      const response = { statusCode: 500 }
+      const responseXml = '<response>stuff</response>'
       postStub.returns(P.resolve([response, responseXml]))
       promisifyStub.returns(postStub)
 

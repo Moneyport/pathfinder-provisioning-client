@@ -18,15 +18,15 @@ class Client {
   changePhoneNumberStatus (phone, profileId, status) {
     return this._parsePhoneNumber(phone).then(parsed => {
       const body = this._createPhoneNumberField(parsed)
-      body['Status'] = status
-      body['DNSProfileID'] = profileId
+      body.Status = status
+      body.DNSProfileID = profileId
 
       return this._sendRequest(this._buildRequest('ChangeTN', body)).then(Result.base)
     })
   }
 
   getActivatedPhoneNumbers (profileId) {
-    return this._sendRequest(this._buildRequest('QueryTN', { 'DNSProfileID': profileId })).then(Result.queryNumber)
+    return this._sendRequest(this._buildRequest('QueryTN', { DNSProfileID: profileId })).then(Result.queryNumber)
   }
 
   getProfileForPhoneNumber (phone) {
@@ -51,15 +51,15 @@ class Client {
   activatePhoneNumber (phone, profileId) {
     return this._parsePhoneNumber(phone).then(parsed => {
       const body = this._createPhoneNumberField(parsed)
-      body['Status'] = 'active'
-      body['DNSProfileID'] = profileId
+      body.Status = 'active'
+      body.DNSProfileID = profileId
 
       return this._sendRequest(this._buildRequest('Activate', body)).then(Result.base)
     })
   }
 
   findProfile (profileId) {
-    return this._sendRequest(this._buildRequest('QueryDNSProfile', { 'ProfileID': profileId })).then(Result.queryProfile)
+    return this._sendRequest(this._buildRequest('QueryDNSProfile', { ProfileID: profileId })).then(Result.queryProfile)
   }
 
   createProfile (profile) {
@@ -94,9 +94,9 @@ class Client {
   }
 
   _buildRequest (method, body) {
-    let req = {}
+    const req = {}
 
-    body['TransactionID'] = this._generateTransactionId()
+    body.TransactionID = this._generateTransactionId()
     req[method] = body
 
     return req
@@ -107,7 +107,7 @@ class Client {
   }
 
   _createPhoneNumberField (parsed) {
-    return { 'TN': { 'Base': parsed.nationalNumber, 'CountryCode': parsed.countryCode }, 'Tier': 2 }
+    return { TN: { Base: parsed.nationalNumber, CountryCode: parsed.countryCode }, Tier: 2 }
   }
 }
 

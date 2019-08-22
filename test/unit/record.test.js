@@ -20,7 +20,7 @@ Test('Record', recordTest => {
 
   recordTest.test('constructor should', constructorTest => {
     constructorTest.test('set supplied options', test => {
-      let opts = {
+      const opts = {
         order: 10,
         preference: 1,
         service: 'E2U+mm',
@@ -35,7 +35,7 @@ Test('Record', recordTest => {
         flags: 't'
       }
 
-      let record = new Record(opts)
+      const record = new Record(opts)
       test.equal(record.order, opts.order)
       test.equal(record.preference, opts.preference)
       test.equal(record.service, opts.service)
@@ -51,7 +51,7 @@ Test('Record', recordTest => {
     })
 
     constructorTest.test('set default options if not supplied', test => {
-      let opts = {
+      const opts = {
         order: 10,
         preference: 1,
         service: 'E2U+mm',
@@ -61,7 +61,7 @@ Test('Record', recordTest => {
         }
       }
 
-      let record = new Record(opts)
+      const record = new Record(opts)
       test.equal(record.ttl, 900)
       test.equal(record.domain, 'e164enum.net')
       test.equal(record.replacement, '.')
@@ -76,10 +76,10 @@ Test('Record', recordTest => {
 
   recordTest.test('toSoap should', toSoapTest => {
     toSoapTest.test('convert record to object for SOAP API', test => {
-      let record = new Record({ order: 10, preference: 1, service: 'E2U+mm', partnerId: 10305, regexp: { pattern: '^.*$', replace: 'mm:001.504@mojaloop.org' } })
+      const record = new Record({ order: 10, preference: 1, service: 'E2U+mm', partnerId: 10305, regexp: { pattern: '^.*$', replace: 'mm:001.504@mojaloop.org' } })
 
-      let soapRecord = record.toSoap()
-      test.equal(soapRecord['$'].ttl, record.ttl)
+      const soapRecord = record.toSoap()
+      test.equal(soapRecord.$.ttl, record.ttl)
       test.equal(soapRecord.DomainName, record.domain)
       test.equal(soapRecord.Preference, record.preference)
       test.equal(soapRecord.Order, record.order)
@@ -87,28 +87,28 @@ Test('Record', recordTest => {
       test.equal(soapRecord.Service, record.service)
       test.equal(soapRecord.Replacement, record.replacement)
       test.equal(soapRecord.CountryCode, false)
-      test.equal(soapRecord.Regexp['$'].pattern, record.regexp.pattern)
-      test.equal(soapRecord.Regexp['_'], record.regexp.replace)
-      test.equal(soapRecord.Partner['$'].id, record.partnerId)
-      test.notOk(soapRecord.Partner['_'])
+      test.equal(soapRecord.Regexp.$.pattern, record.regexp.pattern)
+      test.equal(soapRecord.Regexp._, record.regexp.replace)
+      test.equal(soapRecord.Partner.$.id, record.partnerId)
+      test.notOk(soapRecord.Partner._)
       test.end()
     })
 
     toSoapTest.test('handle partner id for all', test => {
-      let record = new Record({ order: 10, preference: 1, service: 'E2U+mm', regexp: { pattern: '^.*$', replace: 'mm:001.504@mojaloop.org' } })
+      const record = new Record({ order: 10, preference: 1, service: 'E2U+mm', regexp: { pattern: '^.*$', replace: 'mm:001.504@mojaloop.org' } })
 
-      let soapRecord = record.toSoap()
-      test.equal(soapRecord.Partner['$'].id, record.partnerId)
-      test.equal(soapRecord.Partner['_'], 'ALL')
+      const soapRecord = record.toSoap()
+      test.equal(soapRecord.Partner.$.id, record.partnerId)
+      test.equal(soapRecord.Partner._, 'ALL')
       test.end()
     })
 
     toSoapTest.test('convert RegExp to string with no leading or trailing slashes', test => {
-      let record = new Record({ order: 10, preference: 1, service: 'E2U+mm', regexp: { pattern: RegExp(/^.*$/), replace: 'mm:001.504@mojaloop.org' } })
+      const record = new Record({ order: 10, preference: 1, service: 'E2U+mm', regexp: { pattern: RegExp(/^.*$/), replace: 'mm:001.504@mojaloop.org' } })
 
-      let soapRecord = record.toSoap()
-      test.equal(soapRecord.Regexp['$'].pattern, '^.*$')
-      test.equal(soapRecord.Regexp['_'], record.regexp.replace)
+      const soapRecord = record.toSoap()
+      test.equal(soapRecord.Regexp.$.pattern, '^.*$')
+      test.equal(soapRecord.Regexp._, record.regexp.replace)
 
       test.end()
     })

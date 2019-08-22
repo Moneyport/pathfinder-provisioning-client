@@ -24,7 +24,7 @@ Test('XmlConverter', xmlConverterTest => {
 
     promisifyStub = sandbox.stub()
 
-    XmlConverter = Proxyquire(`${src}/soap/xml`, { 'xml2js': { Builder: builderStub, Parser: parserStub }, 'bluebird': { promisify: promisifyStub } })
+    XmlConverter = Proxyquire(`${src}/soap/xml`, { xml2js: { Builder: builderStub, Parser: parserStub }, bluebird: { promisify: promisifyStub } })
 
     t.end()
   })
@@ -51,7 +51,7 @@ Test('XmlConverter', xmlConverterTest => {
       const xml = '<root>parse me</root>'
 
       const parsed = { root: 'parse me' }
-      let parseStringStub = sandbox.stub().returns(P.resolve(parsed))
+      const parseStringStub = sandbox.stub().returns(P.resolve(parsed))
       promisifyStub.returns(parseStringStub)
 
       XmlConverter.toJs(xml)
@@ -72,7 +72,7 @@ Test('XmlConverter', xmlConverterTest => {
       const xml = '<root>parse me</root>'
       buildObjectStub.returns(xml)
 
-      let x = XmlConverter.toXml(obj)
+      const x = XmlConverter.toXml(obj)
       test.ok(buildObjectStub.calledWith(obj))
       test.equal(x, xml)
       test.end()
@@ -86,7 +86,7 @@ Test('XmlConverter', xmlConverterTest => {
       const tagName = 'Envelope'
       const tagNameWithNs = `soap:${tagName}`
 
-      let parsed = XmlConverter._parseTagName(tagNameWithNs)
+      const parsed = XmlConverter._parseTagName(tagNameWithNs)
       test.ok(parsed, tagName)
       test.end()
     })

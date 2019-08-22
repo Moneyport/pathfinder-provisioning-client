@@ -20,9 +20,9 @@ Test('Profile', profileTest => {
 
   profileTest.test('constructor should', constructorTest => {
     constructorTest.test('set supplied options', test => {
-      let opts = { id: 'test', tier: 3, records: [{}] }
+      const opts = { id: 'test', tier: 3, records: [{}] }
 
-      let profile = new Profile(opts)
+      const profile = new Profile(opts)
       test.equal(profile.id, opts.id)
       test.equal(profile.tier, opts.tier)
       test.equal(profile.records, opts.records)
@@ -31,9 +31,9 @@ Test('Profile', profileTest => {
     })
 
     constructorTest.test('set default options if not supplied', test => {
-      let opts = { id: 'test' }
+      const opts = { id: 'test' }
 
-      let profile = new Profile(opts)
+      const profile = new Profile(opts)
       test.equal(profile.id, opts.id)
       test.equal(profile.tier, 2)
       test.deepEqual(profile.records, [])
@@ -42,9 +42,9 @@ Test('Profile', profileTest => {
     })
 
     constructorTest.test('do not set records prop if not array', test => {
-      let opts = { id: 'test', records: {} }
+      const opts = { id: 'test', records: {} }
 
-      let profile = new Profile(opts)
+      const profile = new Profile(opts)
       test.equal(profile.id, opts.id)
       test.deepEqual(profile.records, [])
 
@@ -56,9 +56,9 @@ Test('Profile', profileTest => {
 
   profileTest.test('addRecord should', addRecordTest => {
     addRecordTest.test('append record to list', test => {
-      let opts = { id: 'test', records: [{}] }
+      const opts = { id: 'test', records: [{}] }
 
-      let profile = new Profile(opts)
+      const profile = new Profile(opts)
       test.equal(profile.records.length, 1)
 
       profile.addRecord({})
@@ -72,10 +72,10 @@ Test('Profile', profileTest => {
 
   profileTest.test('clearRecords should', clearRecordsTest => {
     clearRecordsTest.test('clear the current records', test => {
-      let record = { order: 1, preference: 5 }
-      let opts = { id: 'test', records: [record] }
+      const record = { order: 1, preference: 5 }
+      const opts = { id: 'test', records: [record] }
 
-      let profile = new Profile(opts)
+      const profile = new Profile(opts)
       test.equal(profile.records.length, 1)
 
       profile.clearRecords()
@@ -85,13 +85,13 @@ Test('Profile', profileTest => {
     })
 
     clearRecordsTest.test('not create new records array', test => {
-      let record = { order: 1, preference: 5 }
-      let opts = { id: 'test', records: [record] }
+      const record = { order: 1, preference: 5 }
+      const opts = { id: 'test', records: [record] }
 
-      let profile = new Profile(opts)
+      const profile = new Profile(opts)
       test.equal(profile.records.length, 1)
 
-      let existingRecods = profile.records
+      const existingRecods = profile.records
 
       profile.clearRecords()
       test.equal(profile.records, existingRecods)
@@ -104,13 +104,13 @@ Test('Profile', profileTest => {
 
   profileTest.test('toSoap should', toSoapTest => {
     toSoapTest.test('convert profile to object for SOAP API', test => {
-      let soapRecord = {}
-      let record = { toSoap: sandbox.stub().returns(soapRecord) }
+      const soapRecord = {}
+      const record = { toSoap: sandbox.stub().returns(soapRecord) }
 
-      let profileId = 'test'
+      const profileId = 'test'
 
-      let profile = new Profile({ id: profileId, records: [record] })
-      let soapProfile = profile.toSoap()
+      const profile = new Profile({ id: profileId, records: [record] })
+      const soapProfile = profile.toSoap()
 
       test.equal(soapProfile.ProfileID, profileId)
       test.equal(soapProfile.Tier, 2)

@@ -31,10 +31,10 @@ Test('Result', resultTest => {
 
   resultTest.test('base should', baseTest => {
     baseTest.test('create base result', test => {
-      let result = { code: 200 }
+      const result = { code: 200 }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.ok(baseResultStub.calledWithNew())
@@ -45,10 +45,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw BadRequestError', test => {
-      let result = { code: 400, messages: [ 'Test', '123' ] }
+      const result = { code: 400, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -63,10 +63,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw UnauthorizedError', test => {
-      let result = { code: 401, messages: [ 'Test', '123' ] }
+      const result = { code: 401, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -81,10 +81,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw NotFoundError', test => {
-      let result = { code: 404, messages: [ 'Test', '123' ] }
+      const result = { code: 404, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -99,10 +99,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw InvalidValueError', test => {
-      let result = { code: 420, messages: [ 'Test', '123' ] }
+      const result = { code: 420, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -117,10 +117,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw ValueMissingError', test => {
-      let result = { code: 421, messages: [ 'Test', '123' ] }
+      const result = { code: 421, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -135,10 +135,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw ServerError', test => {
-      let result = { code: 500, messages: [ 'Test', '123' ] }
+      const result = { code: 500, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -153,10 +153,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw ServiceUnavailableError', test => {
-      let result = { code: 503, messages: [ 'Test', '123' ] }
+      const result = { code: 503, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -171,10 +171,10 @@ Test('Result', resultTest => {
     })
 
     baseTest.test('throw UnhandledCodeError', test => {
-      let result = { code: 501, messages: [ 'Test', '123' ] }
+      const result = { code: 501, messages: ['Test', '123'] }
       baseResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.base(soapResponse)
         .then(res => {
           test.fail('Should have thrown error')
@@ -193,10 +193,10 @@ Test('Result', resultTest => {
 
   resultTest.test('queryProfile should', queryProfileTest => {
     queryProfileTest.test('create query profile result', test => {
-      let result = { code: 200 }
+      const result = { code: 200 }
       queryProfileResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.queryProfile(soapResponse)
         .then(res => {
           test.ok(queryProfileResultStub.calledWithNew())
@@ -211,10 +211,10 @@ Test('Result', resultTest => {
 
   resultTest.test('queryNumber should', queryNumberTest => {
     queryNumberTest.test('create query number result', test => {
-      let result = { code: 200 }
+      const result = { code: 200 }
       queryNumberResultStub.returns(result)
 
-      let soapResponse = {}
+      const soapResponse = {}
       Result.queryNumber(soapResponse)
         .then(res => {
           test.ok(queryNumberResultStub.calledWithNew())
