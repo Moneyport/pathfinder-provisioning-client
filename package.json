@@ -28,7 +28,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "bluebird": "3.5.5",
+    "bluebird": "3.7.2",
     "google-libphonenumber": "3.2.3",
     "request": "2.88.0",
     "xml2js": "0.4.19"
